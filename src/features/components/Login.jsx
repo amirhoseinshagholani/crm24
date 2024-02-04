@@ -75,7 +75,7 @@ const Login = () => {
                 'accessKey': accessKey
             })
         }).then(response=>response.json()).then(data=>{
-            data.success && setSessionName(data);
+            data.success && setSessionName(data.result.sessionName);
         })
     }
 
@@ -84,7 +84,7 @@ const Login = () => {
     }, []);
 
     useEffect(() => {
-        getSessionName();
+        getSessionName(); 
     }, [accessKey]);
 
     return (
@@ -100,7 +100,7 @@ const Login = () => {
                                             <div className='text-center'>
                                                 <img src={logo} alt="" width={200} />
                                                 <h2>
-
+                                                    {console.log(sessionName)}
                                                 </h2>
                                             </div>
                                         </div>
