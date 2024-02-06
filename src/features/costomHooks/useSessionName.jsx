@@ -38,7 +38,8 @@ const useSessionName = () => {
     useEffect(() => {
         getSessionName(); 
     }, [accessKey]);
-
+    console.log(sessionName);
+    localStorage.setItem('sessionName',sessionName);
     return sessionName;
 }
 

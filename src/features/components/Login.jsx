@@ -1,22 +1,42 @@
 import logo from '@assets/images/logo.png'
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useState } from 'react';
 import { httpService } from '../../services/http-service';
 import { md5 } from '@services/md5';
 import useSessionName from '../costomHooks/useSessionName';
 import { useForm } from 'react-hook-form';
+import { redirect, useActionData, useNavigate, useNavigation, useRouteError, useSubmit } from 'react-router-dom';
+import { AppContext } from '../context/app-context';
 
 const Login = () => {
 
     const sessionName = useSessionName();
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const [submitting,setSubmitting] = useState(false);
+
+    const submitForm = useSubmit();
 
     const onsubmit = (data) => {
-        setSubmitting(true);
-        console.log(data);
+        const { ...userData } = data;
+        submitForm(userData, { method: 'post' });
     }
+
+    const navigation = useNavigation();
+    const isSubmitting = navigation.state !== 'idle';
+
+    const isSuccessOperation = useActionData();
+    const navigate = useNavigate();
+
+    const {setUser} = useContext(AppContext);
+
+    useEffect(()=>{
+        if(isSuccessOperation){
+            setUser(isSuccessOperation[0]);
+            navigate('/panel');
+        }
+    },[isSuccessOperation])
+
+    const routeError = useRouteError();
 
     return (
         <>
@@ -45,7 +65,7 @@ const Login = () => {
                                                                 maxLength: 10,
                                                                 minLength: 10
                                                             })}
-                                                            type="text" className={`form-control form-control-lg ${errors.mellicode && 'is-invalid'}`} />
+                                                                type="text" className={`form-control form-control-lg ${errors.mellicode && 'is-invalid'}`} />
                                                             {
                                                                 errors.mellicode && errors.mellicode.type == 'required' && (
                                                                     <p className='fs-sm text-danger mt-1'>
@@ -73,7 +93,7 @@ const Login = () => {
                                                             <input {...register('password', {
                                                                 required: "رمزعبور الزامی است"
                                                             })}
-                                                            type="text" className={`form-control form-control-lg ${errors.password && 'is-invalid'}`} />
+                                                                type="text" className={`form-control form-control-lg ${errors.password && 'is-invalid'}`} />
                                                             {
                                                                 errors.password && errors.password.type == 'required' && (
                                                                     <p className='fs-sm text-danger mt-1'>
@@ -83,17 +103,27 @@ const Login = () => {
                                                             }
                                                         </div>
                                                         <div className='text-center mt-3'>
-                                                            <button disabled={submitting} type='submit' className='btn btn-lg btn-info'>
+                                                            <button disabled={isSubmitting} type='submit' className='btn btn-lg btn-info'>
                                                                 {
-                                                                    submitting ? <div> در حال ورود <div className='spinner-border spinner-border-sm'></div></div> : 'ورود'
+                                                                    isSubmitting ? <div> در حال ورود <div className='spinner-border spinner-border-sm'></div></div> : 'ورود'
                                                                 }
                                                             </button>
                                                         </div>
+                                                        {
+                                                            routeError && (
+                                                                <div className='alert alert-danger text-danger p-2 mt-3'>
+                                                                    {
+                                                                        routeError.response.data.map(err=>{
+                                                                            <p className='mb-0'>{err.description}</p>
+                                                                        })
+                                                                    }
+                                                                </div>
+                                                            )
+                                                        }
                                                     </form>
 
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -107,3 +137,26 @@ const Login = () => {
 }
 
 export default Login;
+
+
+
+export async function loginAction({ request }) {
+    const sessionName = localStorage.getItem('sessionName');
+    const formData = await request.formData();
+    const inputData = Object.fromEntries(formData);
+    try {
+        const response = await httpService.get('/webservice.php?operation=query&sessionName=' + sessionName + '&query=SELECT * FROM Contacts where cf_1123=' + inputData.mellicode + ';');
+
+        if (response.data.result[0].cf_1123 == inputData.mellicode) {
+            localStorage.setItem('loginState', true);
+            return [response.data.result[0],response.status == 200];
+        }
+        
+
+    } catch (err) {
+        alert("خطایی رخ داده است");
+        return false;
+    }
+
+
+}
