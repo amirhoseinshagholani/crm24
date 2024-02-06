@@ -1,8 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "./features/components/Login";
+import Login from "./features/components/login";
 import Home from "./features/components/home";
-import { loginAction } from "./features/components/Login";
+import { loginAction } from "./features/components/login";
 import Panel from "./features/components/panel";
+import Profile from "./features/components/pages/profile";
 
 export const router = createBrowserRouter([
     {
@@ -12,10 +13,10 @@ export const router = createBrowserRouter([
     {
         path:'/panel',
         element:<Panel></Panel>,
-        // children:[{
-        //     element:<Profile></Profile>,
-        //     index:true
-        // }]
+        children:[{
+            element:<Profile></Profile>,
+            index:true
+        }]
     },
     {
         path:'/login',

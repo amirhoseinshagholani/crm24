@@ -10,6 +10,13 @@ import { redirect, useActionData, useNavigate, useNavigation, useRouteError, use
 import { AppContext } from '../context/app-context';
 
 const Login = () => {
+    const loginState = localStorage.getItem('loginState');
+    const navigation = useNavigation();
+    useEffect(()=>{
+        if(loginState){
+            // navigate('/panel');
+        }
+    },[])
 
     const sessionName = useSessionName();
     const { register, formState: { errors }, handleSubmit } = useForm();
@@ -21,7 +28,7 @@ const Login = () => {
         submitForm(userData, { method: 'post' });
     }
 
-    const navigation = useNavigation();
+    
     const isSubmitting = navigation.state !== 'idle';
 
     const isSuccessOperation = useActionData();
