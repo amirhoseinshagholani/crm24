@@ -12,11 +12,12 @@ import { AppContext } from '../context/app-context';
 const Login = () => {
     const loginState = localStorage.getItem('loginState');
     const navigation = useNavigation();
-    useEffect(()=>{
-        if(loginState){
+
+    useEffect(() => {
+        if (loginState) {
             // navigate('/panel');
         }
-    },[])
+    }, [])
 
     const sessionName = useSessionName();
     const { register, formState: { errors }, handleSubmit } = useForm();
@@ -28,20 +29,20 @@ const Login = () => {
         submitForm(userData, { method: 'post' });
     }
 
-    
+
     const isSubmitting = navigation.state !== 'idle';
 
     const isSuccessOperation = useActionData();
     const navigate = useNavigate();
 
-    const {setUser} = useContext(AppContext);
+    // const { setUser } = useContext(AppContext);
 
-    useEffect(()=>{
-        if(isSuccessOperation){
-            setUser(isSuccessOperation[0]);
-            navigate('/panel');
+    useEffect(() => {
+        if (isSuccessOperation) {
+            // setUser(isSuccessOperation[0]);
+            navigate('/panel', { isSuccessOperation });
         }
-    },[isSuccessOperation])
+    }, [isSuccessOperation])
 
     const routeError = useRouteError();
 
@@ -120,7 +121,7 @@ const Login = () => {
                                                             routeError && (
                                                                 <div className='alert alert-danger text-danger p-2 mt-3'>
                                                                     {
-                                                                        routeError.response.data.map(err=>{
+                                                                        routeError.response.data.map(err => {
                                                                             <p className='mb-0'>{err.description}</p>
                                                                         })
                                                                     }
@@ -145,8 +146,6 @@ const Login = () => {
 
 export default Login;
 
-
-
 export async function loginAction({ request }) {
     const sessionName = localStorage.getItem('sessionName');
     const formData = await request.formData();
@@ -156,14 +155,12 @@ export async function loginAction({ request }) {
 
         if (response.data.result[0].cf_1123 == inputData.mellicode) {
             localStorage.setItem('loginState', true);
-            return [response.data.result[0],response.status == 200];
+            localStorage.setItem('userId', response.data.result[0].id);
+            return [response.data.result[0], response.status == 200];
         }
-        
 
     } catch (err) {
-        alert("خطایی رخ داده است");
+        alert("مخاطب مورد نظر موجود نیست");
         return false;
     }
-
-
 }

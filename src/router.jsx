@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "./features/components/login";
+import Login from "./features/components/Login";
 import Home from "./features/components/home";
-import { loginAction } from "./features/components/login";
+import { loginAction } from "./features/components/Login";
 import Panel from "./features/components/panel";
 import Profile from "./features/components/pages/profile";
+import Simcard from "./features/components/pages/simcard";
 
 export const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
         children:[{
             element:<Profile></Profile>,
             index:true
+        },
+        {
+            path:'simcard',
+            element:<Simcard></Simcard>
         }]
     },
     {
