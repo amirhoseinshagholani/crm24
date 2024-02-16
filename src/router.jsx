@@ -5,6 +5,8 @@ import { loginAction } from "./features/components/Login";
 import Panel from "./features/components/panel";
 import Profile from "./features/components/pages/profile";
 import Simcard from "./features/components/pages/simcard";
+import Tickets from "./features/components/pages/tickets";
+import Comments from "./features/components/pages/comments";
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +23,13 @@ export const router = createBrowserRouter([
         {
             path:'simcard',
             element:<Simcard></Simcard>
+        },
+        {
+            path:'tickets',
+            element:<Tickets></Tickets>,
+        },{
+            path:'tickets/comments',
+            element:<Comments></Comments>
         }]
     },
     {

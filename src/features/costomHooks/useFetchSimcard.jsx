@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { httpService } from "../../services/http-service";
+import { httpService } from "@services/http-service";
 
 const useFetchSimcard = () => {
     const sessionName = localStorage.getItem('sessionName');
