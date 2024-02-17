@@ -15,15 +15,33 @@ const Comments = () => {
 
     const url = new URL(window.location.href);
     const ticketId = url.searchParams.get('ticket');
-    const userId = url.searchParams.get('usr');
-    const currentUserId = localStorage.getItem('userId');
+    // const userId = url.searchParams.get('usr');
+    // const currentUserId = localStorage.getItem('userId');
 
     const comments = useFetchComments(ticketId);
     console.log(comments.result);
 
     return (
         <>
-            <div className="overflow-auto p-2" style={{ maxHeight: "700px"}} dir="rtl">
+            <div className="overflow-auto p-2" style={{ maxHeight: "700px" }} dir="rtl">
+                <div>
+                    <form>
+                        <div className="d-flex gap-2">
+                            <label>موضوع:</label>
+                            <input className="bg-secondary rounded border-1 text-muted" readOnly value="" type="text" style={{ backgroundColor: "#1f96a5" }} />
+                            <label>تاریخ:</label>
+                            <input className="bg-secondary rounded border-1 text-muted" readOnly value="" type="text" style={{ backgroundColor: "#1f96a5" }} />
+                            <label>اولویت:</label>
+                            <input className="bg-secondary rounded border-1 text-muted" readOnly value="" type="text" style={{ backgroundColor: "#1f96a5" }} />
+                            <label>وضعیت:</label>
+                            <input className="bg-secondary rounded border-1 text-muted" readOnly value="" type="text" style={{ backgroundColor: "#1f96a5" }} />
+                        </div>
+                        <div className="d-flex gap-4 mt-2">
+                            <label>شرح:</label>
+                            <textarea className="input-group bg-secondary rounded text-muted" readOnly value="" type="text" />
+                        </div>
+                    </form>
+                </div>
                 <div className="mt-0">
                     {
                         comments && comments.result && (
