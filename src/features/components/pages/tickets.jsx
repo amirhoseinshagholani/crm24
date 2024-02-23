@@ -1,5 +1,5 @@
 import { useState } from "react";
-import useFetchTickets from "../../costomHooks/useFetchTickets";
+import useFetchTickets from "../../costomHooks/tickets/useFetchTickets";
 import { gregorian_to_jalali } from "../../../services/gregorian-to-jalali";
 
 const Tickets = () => {

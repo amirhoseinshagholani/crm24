@@ -148,11 +148,22 @@ export default Login;
 
 export async function loginAction({ request }) {
     const sessionName = localStorage.getItem('sessionName');
+    const sinaToken = localStorage.getItem('sinaToken');
     const formData = await request.formData();
     const inputData = Object.fromEntries(formData);
     try {
-        const response = await httpService.get('/webservice.php?operation=query&sessionName=' + sessionName + '&query=SELECT * FROM Contacts where cf_1123=' + inputData.mellicode + ';');
-
+        // const response = await httpService.get('/webservice.php?operation=query&sessionName=' + sessionName + '&query=SELECT * FROM Contacts where cf_1123=' + inputData.mellicode + ';');
+        const response = await httpService.post('/API/NetExpert/GetCRMQueries', {
+            sessionName: sessionName,
+            operation: `SELECT * FROM Contacts where cf_1123=` + `${inputData.mellicode};`,
+            CrmRequestType: 1
+        },{
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":sinaToken
+            }
+        });
+        
         if (response.data.result[0].cf_1123 == inputData.mellicode) {
             localStorage.setItem('loginState', true);
             localStorage.setItem('userId', response.data.result[0].id);

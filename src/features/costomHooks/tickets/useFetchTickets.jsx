@@ -1,17 +1,20 @@
+
 import { useEffect, useState } from "react";
 import { httpService } from "@services/http-service";
 
-const useFetchUser = () => {
+const useFetchTickets = () => {
     const sessionName = localStorage.getItem('sessionName');
-    const sinaToken = localStorage.getItem('sinaToken');
     const userId = localStorage.getItem('userId');
-    const [currentUser, setCurrentUser] = useState([]);
+    const sinaToken = localStorage.getItem('sinaToken');
+    const [tickets, setTickets] = useState([]);
 
-    const fetchUser = async () => {
-        // const response = await httpService.get('/webservice.php?operation=query&sessionName=' + sessionName + '&query=SELECT * FROM Contacts where id=' + userId + ';');
+    const fetchTickets = async () => {
+
+        // const response = await httpService.get('/webservice.php?operation=query&sessionName=' + sessionName + '&query=SELECT * FROM HelpDesk where contact_id=' + userId + ';');
+        
         const response = await httpService.post('/API/NetExpert/GetCRMQueries', {
             sessionName: sessionName,
-            operation: `SELECT * FROM Contacts where id=` + `${userId};`,
+            operation: `SELECT * FROM HelpDesk where contact_id=` + `${userId};`,
             CrmRequestType: 1
         }, {
             headers: {
@@ -21,17 +24,21 @@ const useFetchUser = () => {
         });
 
         if (response) {
-            setCurrentUser(response.data.result[0]);
+            // console.log(response.data);
+            setTickets(response.data);
         } else {
             return false;
         }
     }
 
     useEffect(() => {
-        fetchUser();
+        fetchTickets();
     }, []);
 
-    return currentUser;
+
+    return tickets;
+
+    
 }
 
-export default useFetchUser;
+export default useFetchTickets;

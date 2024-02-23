@@ -3,7 +3,7 @@ import { Outlet, useActionData, useNavigate } from "react-router-dom";
 // import { AppContext } from "../context/app-context";
 import logo from '@assets/images/logo-panel.png';
 import useFetchUser from "../costomHooks/useFetchUser";
-import { httpService } from "../../services/http-service";
+import { httpService } from "@services/http-service";
 
 const Panel = () => {
     const loginState = localStorage.getItem('loginState');
