@@ -7,6 +7,7 @@ import Profile from "./features/components/pages/profile";
 import Simcard from "./features/components/pages/simcard";
 import Tickets from "./features/components/pages/tickets";
 import Comments from "./features/components/pages/comments";
+import PostTicket from "./features/components/pages/postTicket";
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,9 @@ export const router = createBrowserRouter([
         },{
             path:'tickets/comments',
             element:<Comments></Comments>
+        },{
+            path:'tickets/post',
+            element:<PostTicket></PostTicket>
         }]
     },
     {
