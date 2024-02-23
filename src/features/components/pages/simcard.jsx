@@ -32,9 +32,9 @@ const Simcard = () => {
                                     return (
                                         <div className="card product-card h-100 border-0 shadow-sm">
                                             <span className="badge badge-end text-dark fs-sm  mt-2 text-end">
-                                                <p className="mt-n1"><strong>سریال:</strong> {simcard.fld_vtcmterminalsf1}</p>
-                                                <p className="mt-n2"><strong>شماره:</strong> {simcard.cf_1385}</p>
-                                                <p className="mt-n2"><strong>انقضا:</strong> {convertDate(simcard.cf_1475)}</p>
+                                                <p className="mt-n1"><strong>سریال:</strong> {simcard.fld_vtcmterminalsf1 || "غیرفعال" }</p>
+                                                <p className="mt-n2"><strong>شماره:</strong> {simcard.cf_1385 || "غیرفعال"}</p>
+                                                <p className="mt-n2"><strong>انقضا:</strong> {simcard.cf_1475 ? convertDate(simcard.cf_1475) : "غیرفعال"}</p>
                                             </span>
                                             <img src={simItem} width="160" />
                                         </div>
